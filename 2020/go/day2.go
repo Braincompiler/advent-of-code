@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 	"unicode"
 )
@@ -29,25 +28,19 @@ func day2() {
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		items := strings.FieldsFunc(line, parsePasswordEntryFieldFunc)
-
-		min, err := strconv.Atoi(items[0])
-		if err != nil {
-			panic(fmt.Sprintf("Failed to convert %s to an integer number", items[0]))
-		}
-		max, err := strconv.Atoi(items[1])
-		if err != nil {
-			panic(fmt.Sprintf("Failed to convert %s to an integer number", items[1]))
+		passwordEntry := PasswordEntry{
+			min:      0,
+			max:      0,
+			letter:   '0',
+			password: "",
 		}
 
-		passwords = append(passwords, PasswordEntry{
-			min:      min,
-			max:      max,
-			letter:   rune(items[2][0]),
-			password: items[3],
-		})
+		_, err := fmt.Sscanf(line, "%d-%d %c: %s", &passwordEntry.min, &passwordEntry.max, &passwordEntry.letter, &passwordEntry.password)
+		if err != nil {
+			panic(fmt.Sprintf("Failed to parse line \"%s\"", line))
+		}
 
-		//fmt.Printf("%v", passwordsPuzzle1)
+		passwords = append(passwords, passwordEntry)
 	}
 
 	file.Close()
