@@ -93,5 +93,5 @@ func findResultDay2Puzzle2(passwords *[]PasswordEntry) int {
 }
 
 func isValidPasswordPuzzle2(password string, fl, sl int, letter rune) bool {
-	return (rune(password[fl]) == letter && rune(password[sl]) != letter) || (rune(password[fl]) != letter && rune(password[sl]) == letter)
+	return (rune(password[fl]) == letter) != (rune(password[sl]) == letter)
 }
