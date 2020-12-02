@@ -10,7 +10,7 @@ import (
 func day1() {
 	file, err := os.Open("../inputs/day1.txt")
 	if err != nil {
-		panic("Failed to open input file 1 for day 1")
+		panic("Failed to open input file for day 1")
 	}
 
 	scanner := bufio.NewScanner(file)
@@ -33,14 +33,14 @@ func day1() {
 
 	file.Close()
 
-	resPuzzle1 := findResultPuzzle1(numbersPuzzle1)
+	resPuzzle1 := findResultDay1Puzzle1(numbersPuzzle1)
 	fmt.Println(fmt.Sprintf("Answer for Puzzle 1 at Day 1: %d", resPuzzle1))
 
-	resPuzzle2 := findResultPuzzle2(numbersPuzzle2)
+	resPuzzle2 := findResultDay1Puzzle2(numbersPuzzle2)
 	fmt.Println(fmt.Sprintf("Answer for Puzzle 2 at Day 1: %d", resPuzzle2))
 }
 
-func findResultPuzzle1(numbers []int) int {
+func findResultDay1Puzzle1(numbers []int) int {
 	size := len(numbers)
 	for i := 0; i < size; i++ {
 		prev := numbers[i]
@@ -54,7 +54,7 @@ func findResultPuzzle1(numbers []int) int {
 	return -1
 }
 
-func findResultPuzzle2(numbers []int) int {
+func findResultDay1Puzzle2(numbers []int) int {
 	size := len(numbers)
 	for i := 0; i < size; i++ {
 		prev := numbers[i]
