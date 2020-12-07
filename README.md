@@ -6,3 +6,7 @@ I also prefer the solutions the more "software engineering" rather then "academi
 ## 2020
 
 Go(lang): https://github.com/Braincompiler/advent-of-code/tree/main/2020/go
+
+## ToDos
+
+* Find out why my solution for Day 5 puzzle 2 is wrong; Currently i use this solution: https://www.reddit.com/r/adventofcode/comments/k71h6r/2020_day_05_solutions/ges2rek
