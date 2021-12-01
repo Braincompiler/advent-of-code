@@ -12,6 +12,7 @@ func day1() {
 	if err != nil {
 		panic("Failed to open input file for day 1")
 	}
+	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
@@ -30,8 +31,6 @@ func day1() {
 			numbersPuzzle2 = append(numbersPuzzle2, n)
 		}
 	}
-
-	file.Close()
 
 	resPuzzle1 := findResultDay1Puzzle1(numbersPuzzle1)
 	fmt.Println(fmt.Sprintf("Answer for Puzzle 1 at Day 1: %d", resPuzzle1))
