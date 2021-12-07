@@ -15,6 +15,7 @@ type BingoNumber struct {
 
 type BingoBoard struct {
 	Numbers [][]BingoNumber
+	HasWon  bool
 }
 
 func day4() {
@@ -104,43 +105,53 @@ func findResultDay4Puzzle1(numbers []int, boards []BingoBoard) int {
 		}
 	}
 
-	fmt.Printf("%d = %d = %d\n", theLastNumber, sum(theWinnerBoard.GetUnmarkedNumbers()), theLastNumber*sum(theWinnerBoard.GetUnmarkedNumbers()))
+	//fmt.Printf("%d = %d = %d\n", theLastNumber, sum(theWinnerBoard.GetUnmarkedNumbers()), theLastNumber*sum(theWinnerBoard.GetUnmarkedNumbers()))
 
 	return theLastNumber * sum(theWinnerBoard.GetUnmarkedNumbers())
 }
 
 func findResultDay4Puzzle2(numbers []int, boards []BingoBoard) int {
 	var theWinnerBoard BingoBoard
-	var theLastNumber int
+
+	theWinnerNumber := 0
 	weHaveAWinner := false
 
-	for ni, n := range numbers {
-		println(ni)
-		for i, board := range boards {
-			board.MarkNumber(n)
-			if board.HasWonRowOrColumn() {
-				boards = append(boards[:i], boards[i+1:]...)
-
-				// Debug to see the problem and fix it
-
-				if len(boards) == 0 {
-					theWinnerBoard = board
-					theLastNumber = n
-					weHaveAWinner = true
+	for _, n := range numbers {
+		for i := range boards {
+			boards[i].MarkNumber(n)
+			if boards[i].HasWonRowOrColumn() {
+				if weHaveAWinner {
+					theWinnerNumber = n
+					break
 				}
 
-				break
+				boards[i].HasWon = true
 			}
 		}
 
-		if weHaveAWinner {
+		if weHaveAWinner && theWinnerNumber > 0 {
 			break
 		}
+
+		var filteredBoards []BingoBoard
+		for _, board := range boards {
+			if !board.HasWon {
+				filteredBoards = append(filteredBoards, board)
+			}
+		}
+
+		if len(filteredBoards) == 1 {
+			theWinnerBoard = filteredBoards[0]
+			weHaveAWinner = true
+		}
+
+		boards = filteredBoards
 	}
 
-	fmt.Printf("%d = %d = %d\n", theLastNumber, sum(theWinnerBoard.GetUnmarkedNumbers()), theLastNumber*sum(theWinnerBoard.GetUnmarkedNumbers()))
+	unmarkedNumbers := theWinnerBoard.GetUnmarkedNumbers()
+	//fmt.Printf("%d = %d = %d\n", theWinnerNumber, sum(unmarkedNumbers), theWinnerNumber*sum(unmarkedNumbers))
 
-	return theLastNumber * sum(theWinnerBoard.GetUnmarkedNumbers())
+	return theWinnerNumber * sum(unmarkedNumbers)
 }
 
 func mapSlice(a []string, f func(string) int) []int {
