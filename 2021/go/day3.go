@@ -200,12 +200,3 @@ func binaryToDecimalString(binary bytes.Buffer) int64 {
 
 	return n
 }
-
-//func parseInt(s string) int {
-//	n, err := strconv.Atoi(s)
-//	if err != nil {
-//		panic(fmt.Sprintf("Failed to convert %s to an integer number: %v", s, err))
-//	}
-//
-//	return n
-//}

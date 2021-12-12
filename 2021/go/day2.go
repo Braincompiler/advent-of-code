@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -101,13 +100,4 @@ func findResultDay2Puzzle2(plannedCourse []Position) int {
 	}
 
 	return position.Position.Horizontal * position.Position.Depth
-}
-
-func parseInt(s string) int {
-	n, err := strconv.Atoi(s)
-	if err != nil {
-		panic(fmt.Sprintf("Failed to convert %s to an integer number: %v", s, err))
-	}
-
-	return n
 }
