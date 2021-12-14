@@ -17,7 +17,7 @@ type LineSegment struct {
 }
 
 func day5() {
-	file, err := os.Open("../inputs/day5_sample.txt")
+	file, err := os.Open("../inputs/day5.txt")
 	if err != nil {
 		panic(fmt.Sprintf("Failed to open input file for day 5: %v", err))
 	}
@@ -41,7 +41,6 @@ func day5() {
 		s := scanner.Text()
 
 		matches := rxp.FindStringSubmatch(s)
-		//fmt.Printf("%v,%v -> %v,%v\n", matches[1], matches[2], matches[3], matches[4])
 
 		lineSegments = append(lineSegments, LineSegment{
 			x1: parseInt(matches[1]),
@@ -63,7 +62,7 @@ func findResultDay5Puzzle1(lineSegments []LineSegment) int {
 	segments := filterHorizontalAndVerticalLines(lineSegments)
 
 	for _, segment := range segments {
-		diagram = segment.MarkLine /*2*/ (diagram)
+		diagram = segment.MarkLine(diagram)
 	}
 
 	//dumpDiagram(diagram)
@@ -76,10 +75,10 @@ func findResultDay5Puzzle2(lineSegments []LineSegment) int {
 	segments := filterHorizontalVerticalAndDiagonalLines(lineSegments)
 
 	for _, segment := range segments {
-		diagram = segment.MarkLine2(diagram)
+		diagram = segment.MarkLine(diagram)
 	}
 
-	dumpDiagram(diagram)
+	//dumpDiagram(diagram)
 
 	return countOverlaps(diagram)
 }
@@ -171,24 +170,24 @@ func getFromTo(a, b int) (int, int) {
 	return a, b
 }
 
+//func (ls LineSegment) MarkLine(diagram [][]int) [][]int {
+//	xa, xb := getFromTo(ls.x1, ls.x2)
+//	ya, yb := getFromTo(ls.y1, ls.y2)
+//
+//	if xa == xb {
+//		for i := ya; i <= yb; i++ {
+//			diagram[i][xa]++
+//		}
+//	} else {
+//		for i := xa; i <= xb; i++ {
+//			diagram[ya][i]++
+//		}
+//	}
+//
+//	return diagram
+//}
+
 func (ls LineSegment) MarkLine(diagram [][]int) [][]int {
-	xa, xb := getFromTo(ls.x1, ls.x2)
-	ya, yb := getFromTo(ls.y1, ls.y2)
-
-	if xa == xb {
-		for i := ya; i <= yb; i++ {
-			diagram[i][xa]++
-		}
-	} else {
-		for i := xa; i <= xb; i++ {
-			diagram[ya][i]++
-		}
-	}
-
-	return diagram
-}
-
-func (ls LineSegment) MarkLine2(diagram [][]int) [][]int {
 	xa, xb := getFromTo(ls.x1, ls.x2)
 	ya, yb := getFromTo(ls.y1, ls.y2)
 
@@ -201,35 +200,6 @@ func (ls LineSegment) MarkLine2(diagram [][]int) [][]int {
 			diagram[ya][i]++
 		}
 	} else {
-		// x: 6,4 -> 2,0 => 5,3 4,2 3,1 => diffX = -4, diffY = -4
-		// o: 0,0 -> 8,8 => 1,1 2,2 3,3 4,4 5,5 6,6 7,7 => diffX = 8, diffY = 8
-
-		xa = ls.x1
-		ya = ls.y1
-		diffX := ls.x2 - ls.x1
-		diffY := ls.y2 - ls.y1
-		stepX := 1
-		stepY := 1
-		if diffX < 0 {
-			stepX *= -1
-			xa = ls.x2
-		}
-		if diffY < 0 {
-			stepY *= -1
-			ya = ls.y2
-		}
-
-		for {
-			diagram[ya][xa]++
-
-			if xa == xb || ya == yb {
-				break
-			}
-
-			xa += stepX
-			ya += stepY
-		}
-
 		//   0 1 2 3 4 5 6 7 8 9
 		// 0 o . . . . . . . . .
 		// 1 . o . . . . . . . .
@@ -242,28 +212,31 @@ func (ls LineSegment) MarkLine2(diagram [][]int) [][]int {
 		// 8 . . . . . . . . o .
 		// 9 . . . . . . . . . .
 
-		//diffX := ls.x2 - ls.x1
-		//diffY := ls.y2 - ls.y1
-		//stepX := 1
-		//stepY := 1
-		//if diffX < 0 {
-		//	stepX *= -1
-		//}
-		//if diffY < 0 {
-		//	stepY *= -1
-		//}
-		//
-		//for colIdx := ls.y1; colIdx <= ls.y2; colIdx += stepY {
-		//	for rowIdx := ls.x1; rowIdx <= ls.x2; rowIdx += stepX {
-		//
-		//	}
-		//}
-		//
-		//for colIdx := ls.y1; colIdx <= yb; colIdx++ {
-		//	for rowIdx := colIdx; rowIdx <= xb; rowIdx++ {
-		//		diagram[ya][xa]++
-		//	}
-		//}
+		xa = ls.x1
+		ya = ls.y1
+		xb = ls.x2
+		yb = ls.y2
+		diffX := ls.x2 - ls.x1
+		diffY := ls.y2 - ls.y1
+		stepX := 1
+		stepY := 1
+		if diffX < 0 {
+			stepX *= -1
+		}
+		if diffY < 0 {
+			stepY *= -1
+		}
+
+		for {
+			diagram[ya][xa]++
+
+			if xa == xb || ya == yb {
+				break
+			}
+
+			xa += stepX
+			ya += stepY
+		}
 	}
 
 	return diagram
