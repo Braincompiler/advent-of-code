@@ -204,6 +204,21 @@ func (ls LineSegment) MarkLine2(diagram [][]int) [][]int {
 		// x: 6,4 -> 2,0 => 5,3 4,2 3,1 => diffX = -4, diffY = -4
 		// o: 0,0 -> 8,8 => 1,1 2,2 3,3 4,4 5,5 6,6 7,7 => diffX = 8, diffY = 8
 
+		xa = ls.x1
+		ya = ls.y1
+		diffX := ls.x2 - ls.x1
+		diffY := ls.y2 - ls.y1
+		stepX := 1
+		stepY := 1
+		if diffX < 0 {
+			stepX *= -1
+			xa = ls.x2
+		}
+		if diffY < 0 {
+			stepY *= -1
+			ya = ls.y2
+		}
+
 		for {
 			diagram[ya][xa]++
 
@@ -211,8 +226,8 @@ func (ls LineSegment) MarkLine2(diagram [][]int) [][]int {
 				break
 			}
 
-			xa++
-			ya++
+			xa += stepX
+			ya += stepY
 		}
 
 		//   0 1 2 3 4 5 6 7 8 9
