@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
+	"strings"
 )
 
 func day7() {
@@ -25,12 +25,11 @@ func day7() {
 	var numbers []int
 	for scanner.Scan() {
 		s := scanner.Text()
-		n, err := strconv.Atoi(s)
-		if err != nil {
-			panic(fmt.Sprintf("Failed to convert %s to an integer number: %v", s, err))
-		}
 
-		numbers = append(numbers, n)
+		numberStrings := strings.Split(s, ",")
+		for _, numberString := range numberStrings {
+			numbers = append(numbers, parseInt(numberString))
+		}
 	}
 
 	resPuzzle1 := findResultDay7Puzzle1(numbers)
