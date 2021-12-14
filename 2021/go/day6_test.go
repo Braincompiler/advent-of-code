@@ -5,5 +5,5 @@ import (
 )
 
 func TestDay6(t *testing.T) {
-	//day6()
+	day6()
 }

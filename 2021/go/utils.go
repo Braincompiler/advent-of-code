@@ -14,6 +14,15 @@ func parseInt(s string) int {
 	return n
 }
 
+func parseUint64(s string) uint64 {
+	n, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		panic(fmt.Sprintf("Failed to convert %s to an integer number: %v", s, err))
+	}
+
+	return uint64(n)
+}
+
 func max(a ...int) int {
 	r := a[0]
 
