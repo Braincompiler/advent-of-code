@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
+	"strings"
 )
 
 func parseInt(s string) int {
@@ -53,4 +55,32 @@ func abs(a int) int {
 	}
 
 	return a
+}
+
+func mapStringSlice(a []string, f func(string) string) []string {
+	var result []string
+
+	for _, s := range a {
+		result = append(result, f(s))
+	}
+
+	return result
+}
+
+func contains(a []int, i int) bool {
+	for _, n := range a {
+		if n == i {
+			return true
+		}
+	}
+
+	return false
+}
+
+func sortString(s string) string {
+	a := strings.Split(s, "")
+
+	sort.Strings(a)
+
+	return strings.Join(a, "")
 }
