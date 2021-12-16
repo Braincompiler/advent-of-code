@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strings"
 )
@@ -40,9 +41,40 @@ func day7() {
 }
 
 func findResultDay7Puzzle1(numbers []int) int {
-	return 0
+	minSumOfFuel := math.MaxInt
+	for i := 1; i <= len(numbers); i++ {
+		sumPerHorizontalPosition := 0
+		for _, crab := range numbers {
+			sumPerHorizontalPosition += abs(i - crab)
+		}
+
+		//fmt.Printf("%d: %d\n", i, sumPerHorizontalPosition)
+		minSumOfFuel = min(minSumOfFuel, sumPerHorizontalPosition)
+	}
+
+	return minSumOfFuel
 }
 
 func findResultDay7Puzzle2(numbers []int) int {
-	return 0
+	minSumOfFuel := math.MaxInt
+	for i := 1; i <= len(numbers); i++ {
+		sumOfStep := 0
+		for _, crab := range numbers {
+			sumOfStep += sumSteps(crab, i)
+		}
+
+		minSumOfFuel = min(minSumOfFuel, sumOfStep)
+	}
+
+	return minSumOfFuel
+}
+
+func sumSteps(crab, steps int) int {
+	sum := 0
+
+	for i := 1; i <= abs(crab-steps); i++ {
+		sum += i
+	}
+
+	return sum
 }
