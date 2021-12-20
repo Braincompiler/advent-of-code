@@ -77,10 +77,84 @@ func contains(a []int, i int) bool {
 	return false
 }
 
+func containsString(a []string, i string) bool {
+	for _, n := range a {
+		if n == i {
+			return true
+		}
+	}
+
+	return false
+}
+
 func sortString(s string) string {
 	a := strings.Split(s, "")
 
 	sort.Strings(a)
 
 	return strings.Join(a, "")
+}
+
+//func permutations(a []int) [][]int {
+//	var result [][]int
+//
+//	perm(a, func(ints []int) {
+//		result = append(result, ints)
+//	}, 0)
+//
+//	return result
+//}
+//
+//// Permute the values at index i to len(a)-1.
+//func perm(a []int, f func([]int), i int) {
+//	if i > len(a) {
+//		f(a)
+//		return
+//	}
+//
+//	perm(a, f, i+1)
+//
+//	for j := i + 1; j < len(a); j++ {
+//		a[i], a[j] = a[j], a[i]
+//		perm(a, f, i+1)
+//		a[i], a[j] = a[j], a[i]
+//	}
+//}
+
+func permutations(xs []int) (permuts [][]int) {
+	var rc func([]int, int)
+
+	rc = func(a []int, k int) {
+		if k == len(a) {
+			permuts = append(permuts, append([]int{}, a...))
+		} else {
+			for i := k; i < len(xs); i++ {
+				a[k], a[i] = a[i], a[k]
+				rc(a, k+1)
+				a[k], a[i] = a[i], a[k]
+			}
+		}
+	}
+
+	rc(xs, 0)
+
+	return permuts
+}
+
+type ZipPair struct {
+	A rune
+	B int
+}
+
+func zip(s string, a []int) []ZipPair {
+	var zipPairs []ZipPair
+
+	for i := 0; i < len(s); i++ {
+		zipPairs = append(zipPairs, ZipPair{
+			A: rune(s[i]),
+			B: a[i],
+		})
+	}
+
+	return zipPairs
 }
