@@ -22,7 +22,6 @@ func day1() {
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
 
-
 	var numbers []int
 	for scanner.Scan() {
 		s := scanner.Text()
