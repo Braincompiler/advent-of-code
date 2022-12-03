@@ -9,7 +9,7 @@ import (
 )
 
 type Elf struct {
-	calories []int
+	Calories []int
 }
 
 func day1() {
@@ -33,7 +33,7 @@ func day1() {
 		s := scanner.Text()
 		if s == "" {
 			elves = append(elves, Elf{
-				calories: calories,
+				Calories: calories,
 			})
 
 			calories = nil
@@ -77,7 +77,7 @@ func findResultDay1Puzzle2(elves []Elf) int {
 func (e Elf) TotalCalories() int {
 	sum := 0
 
-	for _, calory := range e.calories {
+	for _, calory := range e.Calories {
 		sum += calory
 	}
 
