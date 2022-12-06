@@ -161,10 +161,96 @@ func zip(s string, a []int) []ZipPair {
 	return zipPairs
 }
 
+func reverse[S ~[]E, E any](s S) {
+	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+		s[i], s[j] = s[j], s[i]
+	}
+}
+
 type NumberType interface {
 	constraints.Integer | constraints.Float
 }
 
 func IsBetween[T NumberType](v, lo, hi T) bool {
 	return v >= lo && v <= hi
+}
+
+type (
+	Stack[T any] struct {
+		top    *node[T]
+		length int
+	}
+
+	node[T any] struct {
+		value *T
+		prev  *node[T]
+	}
+)
+
+// NewStack Create a new stack
+func NewStack[T any]() *Stack[T] {
+	return &Stack[T]{nil, 0}
+}
+
+// Len the number of items in the stack
+func (s *Stack[T]) Len() int {
+	return s.length
+}
+
+// Peek the top item on the stack
+func (s *Stack[T]) Peek() *T {
+	if s.length == 0 {
+		return nil
+	}
+
+	return s.top.value
+}
+
+// Pop the item of the stack and return it
+func (s *Stack[T]) Pop() *T {
+	if s.length == 0 {
+		return nil
+	}
+
+	n := s.top
+	s.top = n.prev
+	s.length--
+
+	return n.value
+}
+
+// PopMany items of the stack and return it
+func (s *Stack[T]) PopMany(num int) []*T {
+	if s.length == 0 {
+		return nil
+	}
+
+	var values []*T
+	for i := 0; i < num; i++ {
+		n := s.top
+		s.top = n.prev
+		s.length--
+
+		values = append(values, n.value)
+	}
+
+	return values
+}
+
+// Push a value onto the top of the stack
+func (s *Stack[T]) Push(value T) *Stack[T] {
+	n := &node[T]{&value, s.top}
+	s.top = n
+	s.length++
+
+	return s
+}
+
+// PushMany values onto the top of the stack
+func (s *Stack[T]) PushMany(values []*T) *Stack[T] {
+	for _, value := range values {
+		s.Push(*value)
+	}
+
+	return s
 }
