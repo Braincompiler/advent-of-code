@@ -27,7 +27,7 @@ func parseUint64(s string) uint64 {
 	return uint64(n)
 }
 
-func max(a ...int) int {
+func max[T constraints.Integer | constraints.Float](a ...T) T {
 	r := a[0]
 
 	for i := 1; i < len(a); i++ {
@@ -39,7 +39,7 @@ func max(a ...int) int {
 	return r
 }
 
-func min(a ...int) int {
+func min[T constraints.Integer | constraints.Float](a ...T) T {
 	r := a[0]
 
 	for i := 1; i < len(a); i++ {
@@ -51,12 +51,22 @@ func min(a ...int) int {
 	return r
 }
 
-func abs(a int) int {
+func abs[T constraints.Integer | constraints.Float](a T, multiplyBy T) T {
 	if a < 0 {
-		return a * -1
+		return a * multiplyBy
 	}
 
 	return a
+}
+
+func sum[T constraints.Integer | constraints.Float](a ...T) T {
+	var sum T
+
+	for _, n := range a {
+		sum += n
+	}
+
+	return sum
 }
 
 func mapStringSlice(a []string, f func(string) string) []string {
@@ -253,4 +263,22 @@ func (s *Stack[T]) PushMany(values []*T) *Stack[T] {
 	}
 
 	return s
+}
+
+func sortMapByValues[TKey comparable, TValue constraints.Ordered](m map[TKey]TValue) {
+	keys := make([]TKey, 0, len(m))
+	newMap := make(map[TKey]TValue, len(m))
+
+	for key := range m {
+		keys = append(keys, key)
+	}
+
+	sort.SliceStable(keys, func(i, j int) bool {
+		return m[keys[i]] > m[keys[j]]
+	})
+
+	for _, k := range keys {
+		//fmt.Println(k, m[k])
+		newMap[k] = m[k]
+	}
 }
