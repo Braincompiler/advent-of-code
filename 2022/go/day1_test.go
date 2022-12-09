@@ -31,3 +31,11 @@ func TestDay6(t *testing.T) {
 func TestDay7(t *testing.T) {
 	day7()
 }
+
+func TestDay8(t *testing.T) {
+	day8()
+}
+
+func TestDay9(t *testing.T) {
+	day9()
+}

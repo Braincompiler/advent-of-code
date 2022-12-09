@@ -18,6 +18,10 @@ func parseInt(s string) int {
 	return n
 }
 
+func parseIntFromChar(c int32) int {
+	return int(c - 48)
+}
+
 func parseUint64(s string) uint64 {
 	n, err := strconv.ParseInt(s, 10, 64)
 	if err != nil {
